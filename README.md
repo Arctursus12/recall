@@ -121,4 +121,4 @@ Bear in mind there is no guarantee your addition or edit will be implemented –
 
 ## License
 At least for the time being, Recall is being licensed under **Apache 2.0**. This is primarily to future-proof, for the slim circumstance that it picks up steam and potentially encounters any friction.<br>
-Recall as a piece of software, at the very least until it is "complete," will be **FOSS**, and will remain so permanently. Whether or not I will at later points allow monetization of forks or derivatives of the project will depend on whether or not it ever reaches that point, when it reaches that point, and in what state it does so.<br>
+Recall as a piece of software will be **FOSS**, and will remain so permanently. Whether or not I will, at later points, allow monetization of forks or derivatives of the project will depend on whether or not it ever reaches that point, when it reaches that point, and in what state it does so.<br>

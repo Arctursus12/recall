@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recall Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="config-panel">
+            <h3>Configuration</h3>
+            <div class="config-group">
+                <label>
+                    <input type="radio" name="mode" value="openai" checked>
+                    OpenAI API
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="local-llm">
+                    Local LLM
+                </label>
+            </div>
+            <div class="config-group" id="openai-config">
+                <input type="password" id="api-key" placeholder="OpenAI API Key">
+                <select id="model-select">
+                    <option value="gpt-4">GPT-4</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                </select>
+            </div>
+            <div class="config-group hidden" id="local-llm-config">
+                <input type="text" id="llm-url" placeholder="http://localhost:11434" value="http://localhost:11434">
+                <select id="llm-type">
+                    <option value="ollama">Ollama</option>
+                    <option value="koboldcpp">KoboldCpp</option>
+                    <option value="openai-compatible">OpenAI Compatible</option>
+                </select>
+                <input type="text" id="llm-model" placeholder="Model name (e.g., llama2)" value="">
+            </div>
+            <div class="config-group">
+                <input type="text" id="recall-url" placeholder="Recall Backend URL" value="http://localhost:5000">
+                <small>Recall backend (persistent memory enabled)</small>
+            </div>
+            <button id="save-config">Save Config</button>
+            <div id="status" class="status"></div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Recall</h2>
+                <button id="clear-chat">Clear Chat</button>
+            </div>
+            <div id="messages" class="messages"></div>
+            <div class="input-container">
+                <textarea id="user-input" placeholder="Type your message..." rows="3"></textarea>
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="chat.js"></script>
+</body>
+</html>

@@ -1,2 +1,37 @@
 .DS_Store
 .vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Database files
+*.db
+*.db-journal
+database/recall.db
+database/chroma/
+
+# API keys and secrets
+.env
+*.key
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+
+# Model cache
+models/
+.cache/

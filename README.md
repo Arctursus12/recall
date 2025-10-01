@@ -112,7 +112,7 @@ At the moment, that means LLMs, but with organizations such as [Real Good AI](ht
 
 ## Feedback
 I am not a skilled programmer, and this project is being developed in parallel to many other obligations and hobbies ongoing in my life.<br>
-<sup>(At least well over halfm and likely most, of this code will be written with heavy Claude Code and GPT usage.)</sup><br>
+<sup>(At least well over half, and likely most, of this code will be written with heavy Claude Code and GPT usage.)</sup><br>
 As such, updates and development will likely be slow, features will be broken, and many issues will likely pass by me unnoticed. As such, if you experience any issues or notice any flaws in my work, feel free to open an issue! I'll fix bugs as fast as I physically can, and would very much appreciate advice from more experienced peers in the field. Scrapping together something semi-functional is easy enough, but refining it from a stick and stone into a proper tool requires knowledge I, at least so far, sorely lack.<br>
 
 ## Contribution

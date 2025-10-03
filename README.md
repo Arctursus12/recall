@@ -7,15 +7,18 @@ Every conversation is automatically saved and semantically indexed, with any ide
 The goal long-term is to permit it access to the host system and internet, so that it can attempt to retrieve information it may not even have yet.<br>
 
 ## The "How"
-Recall uses a **hybrid memory architecture**:<br>
+Recall uses a **hybrid memory + intelligent routing architecture**:<br>
 
 1. **SQLite Database** - Stores conversation metadata, timestamps, and session information for fast chronological queries
 2. **ChromaDB Vector Store** - Maintains semantic embeddings of conversations for similarity-based retrieval
 3. **Memory Manager** - Retrieves both recent conversations (from your current session) and semantically relevant past conversations (from previous sessions)
-4. **Backend Server** - Orchestrates memory operations and routes requests to your chosen LLM (OpenAI or local)
-5. **Web Frontend** - Simple chat interface for configuration and interaction
+4. **Intelligent Model Router** - Uses semantic similarity to automatically route queries to the most appropriate LLM based on user-defined purposes
+5. **Backend Server** - Orchestrates memory operations, model routing, and LLM API calls
+6. **Web Frontend** - Multi-model configuration interface for managing LLMs and their purposes
 
 **Memory is always on.** Every message is saved and becomes part of the searchable history. When you send a message, Recall automatically finds the most relevant past conversations and includes them in the LLM's context window. This is vital, as even "useless" or "irrelevant" data shapes how interaction occurs, and ends up contributing to memory in a beneficial way.<br>
+
+**Routing is automatic.** Configure multiple models with their intended purposes (e.g., "Programming and mathematics" vs "Creative writing and language tasks"), and Recall semantically matches each query to the best model—no manual selection required.<br>
 
 ## Quick Start
 
@@ -34,41 +37,56 @@ python fetcher/main.py
 ```
 
 ### Configuration
-Choose your LLM in the frontend interface:<br>
+Configure one or more LLMs in the frontend interface. Recall supports multiple providers and automatically routes queries to the most appropriate model based on semantic similarity.<br>
 
-**Option 1: OpenAI**
-- Enter your API key in the UI (or set `OPENAI_API_KEY` environment variable)
-- Select model: GPT-4, GPT-4 Turbo, or GPT-3.5 Turbo
-- Messages route through Recall backend → OpenAI API (with memory context)
+**Supported Providers:**
+- **OpenAI** - GPT-4, GPT-4 Turbo, GPT-3.5, etc.
+- **Deepseek** - Deepseek-chat, Deepseek-coder
+- **Anthropic** - Claude 3.5 Sonnet, Claude 3 Opus, etc.
+- **Google** - Gemini Pro, Gemini Pro Vision
+- **Ollama** - Local models (Llama, Mistral, CodeLlama, etc.)
+- **KoboldCpp** - Local GGUF models
+- **OpenAI-Compatible** - LM Studio, text-generation-webui, etc.
+- **AI Horde** - Free distributed inference (no API key required)
 
-**Option 2: Local LLM**
-- Supports: Ollama, KoboldCpp, LM Studio, or any OpenAI-compatible API
-- Configure in UI:
-  - **URL**: Your LLM server address (e.g., `http://localhost:11434`)
-  - **Type**: Select your server type from dropdown
-  - **Model**: Model name (e.g., `llama2`, `mistral`, `codellama`)
-- Messages route through Recall backend → Local LLM (with memory context)
-
-**Example Setup with Ollama:**
+**Example Multi-Model Setup:**
 ```bash
-# Terminal 1: Start Ollama
-ollama serve
-
-# Terminal 2: Start Recall backend
+# Terminal 1: Start Recall backend
 python fetcher/main.py
 
-# Terminal 3: Pull a model if needed
-ollama pull llama2
+# Terminal 2 (optional): Start Ollama for local models
+ollama serve
+ollama pull deepseek-r1:7b
 
-# Open frontend/chat.html, select "Local LLM", configure URL and model
+# Open frontend/chat.html in browser
+# Add models with their purposes:
+#   - Name: "GPT-4 General"
+#     Provider: OpenAI
+#     Model: gpt-4
+#     API Key: sk-...
+#     Purpose: "Creative writing, language tasks, and general conversation"
+#
+#   - Name: "Deepseek Programming"
+#     Provider: Deepseek
+#     Model: deepseek-chat
+#     API Key: sk-...
+#     Purpose: "Programming tasks, code review, debugging, and mathematics"
+#
+#   - Name: "Local Llama"
+#     Provider: Ollama
+#     Model: deepseek-r1:7b
+#     URL: http://localhost:11434
+#     Purpose: "Quick queries and offline tasks"
 ```
+
+Recall will automatically route your queries to the most appropriate model based on semantic similarity between the query and each model's purpose description.<br>
 
 ## File Structure
 ```
 recall/
-├── frontend/           # Web UI (HTML/CSS/JS)
+├── frontend/           # Web UI with multi-model configuration
 ├── database/           # SQLite schema and managers
-├── fetcher/            # FastAPI backend + memory logic
+├── fetcher/            # FastAPI backend + memory + routing logic
 ├── config/             # (Future) Personality configs
 └── requirements.txt    # Python dependencies
 ```
@@ -76,7 +94,7 @@ recall/
 ## API Endpoints
 The Recall backend exposes these endpoints:<br>
 
-- `POST /chat` - Main chat endpoint (handles memory retrieval, LLM calls, and storage)
+- `POST /chat` - Main chat endpoint (handles model routing, memory retrieval, LLM calls, and storage)
 - `POST /memory/search` - Search past conversations by text or semantic similarity
 - `GET /memory/recent` - Retrieve recent conversations (optionally filtered by session)
 - `GET /sessions` - List all conversation sessions
@@ -89,9 +107,17 @@ The Recall backend exposes these endpoints:<br>
 - Performs semantic search for 3 most relevant past conversations (cross-session context)
 - Combines both into system prompt for LLM
 
+**Model Routing Strategy:**
+- Embeds user query using `all-MiniLM-L6-v2` (same model used for memory)
+- Embeds all configured model purpose descriptions
+- Calculates cosine similarity between query and each purpose
+- Routes to model with highest similarity score
+- Zero overhead (reuses existing embedding infrastructure)
+
 **Embedding Model:**
 - Uses `all-MiniLM-L6-v2` (80MB, fast, 384 dimensions)
 - Runs locally via sentence-transformers
+- Powers both memory retrieval and model routing
 - Alternative: Upgrade to `all-mpnet-base-v2` for higher quality
 
 **Storage:**

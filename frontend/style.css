@@ -18,7 +18,7 @@ body {
 }
 
 .config-panel {
-    width: 300px;
+    width: 350px;
     background: #2a2a2a;
     padding: 20px;
     border-right: 1px solid #3a3a3a;
@@ -26,12 +26,103 @@ body {
 }
 
 .config-panel h3 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: #fff;
+}
+
+.config-description {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 20px;
+    line-height: 1.4;
 }
 
 .config-group {
     margin-bottom: 15px;
+}
+
+/* Model Cards */
+#models-list {
+    margin-bottom: 20px;
+}
+
+#models-list h4 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.no-models {
+    color: #888;
+    font-size: 13px;
+    padding: 15px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.model-card {
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.model-card-header strong {
+    color: #4a9eff;
+    font-size: 14px;
+}
+
+.remove-model-btn {
+    padding: 4px 10px;
+    background: #5a2d2d;
+    color: #ff7f7f;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.remove-model-btn:hover {
+    background: #6a3d3d;
+}
+
+.model-card-details {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.model-card-details div {
+    margin-bottom: 5px;
+}
+
+.model-card-details strong {
+    color: #e0e0e0;
+}
+
+/* Add Model Section */
+.add-model-section {
+    background: #1a1a1a;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.add-model-section h4 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 14px;
 }
 
 .config-group label {
@@ -42,6 +133,7 @@ body {
 
 .config-group input[type="text"],
 .config-group input[type="password"],
+.config-group textarea,
 .config-group select {
     width: 100%;
     padding: 10px;
@@ -50,6 +142,12 @@ body {
     border-radius: 4px;
     color: #e0e0e0;
     margin-bottom: 10px;
+    font-family: inherit;
+}
+
+.config-group textarea {
+    resize: vertical;
+    min-height: 60px;
 }
 
 .config-group small {
@@ -68,7 +166,8 @@ body {
     display: none;
 }
 
-#save-config {
+#save-config,
+#add-model-btn {
     width: 100%;
     padding: 10px;
     background: #4a9eff;
@@ -80,8 +179,17 @@ body {
     font-weight: 600;
 }
 
-#save-config:hover {
+#save-config:hover,
+#add-model-btn:hover {
     background: #3a8eef;
+}
+
+#add-model-btn {
+    background: #2d8a5a;
+}
+
+#add-model-btn:hover {
+    background: #3d9a6a;
 }
 
 .status {

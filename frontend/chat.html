@@ -9,39 +9,50 @@
 <body>
     <div class="container">
         <div class="config-panel">
-            <h3>Configuration</h3>
-            <div class="config-group">
-                <label>
-                    <input type="radio" name="mode" value="openai" checked>
-                    OpenAI API
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="local-llm">
-                    Local LLM
-                </label>
+            <h3>Model Configuration</h3>
+            <p class="config-description">Add models with their primary purposes. Recall will automatically route queries to the most appropriate model.</p>
+
+            <div id="models-list"></div>
+
+            <div class="add-model-section">
+                <h4>Add Model</h4>
+                <div class="config-group">
+                    <input type="text" id="model-name" placeholder="Model Name (e.g., 'GPT-4 General')">
+                </div>
+                <div class="config-group">
+                    <select id="provider-type">
+                        <option value="">Select Provider</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="deepseek">Deepseek</option>
+                        <option value="anthropic">Anthropic (Claude)</option>
+                        <option value="google">Google (Gemini)</option>
+                        <option value="ollama">Ollama (Local)</option>
+                        <option value="koboldcpp">KoboldCpp (Local)</option>
+                        <option value="openai-compatible">OpenAI-Compatible (Local)</option>
+                        <option value="horde">AI Horde (Free)</option>
+                    </select>
+                </div>
+                <div class="config-group">
+                    <input type="text" id="model-id" placeholder="Model ID (e.g., 'gpt-4', 'claude-3-5-sonnet-20241022')">
+                </div>
+                <div class="config-group">
+                    <input type="password" id="model-api-key" placeholder="API Key (if required)">
+                </div>
+                <div class="config-group" id="model-url-group" style="display: none;">
+                    <input type="text" id="model-url" placeholder="Server URL (for local LLMs)">
+                </div>
+                <div class="config-group">
+                    <textarea id="model-purpose" placeholder="Primary Purpose (e.g., 'Language tasks, creative writing, and essay review')" rows="3"></textarea>
+                </div>
+                <button id="add-model-btn">Add Model</button>
             </div>
-            <div class="config-group" id="openai-config">
-                <input type="password" id="api-key" placeholder="OpenAI API Key">
-                <select id="model-select">
-                    <option value="gpt-4">GPT-4</option>
-                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
-                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-                </select>
-            </div>
-            <div class="config-group hidden" id="local-llm-config">
-                <input type="text" id="llm-url" placeholder="http://localhost:11434" value="http://localhost:11434">
-                <select id="llm-type">
-                    <option value="ollama">Ollama</option>
-                    <option value="koboldcpp">KoboldCpp</option>
-                    <option value="openai-compatible">OpenAI Compatible</option>
-                </select>
-                <input type="text" id="llm-model" placeholder="Model name (e.g., llama2)" value="">
-            </div>
+
             <div class="config-group">
                 <input type="text" id="recall-url" placeholder="Recall Backend URL" value="http://localhost:5000">
-                <small>Recall backend (persistent memory enabled)</small>
+                <small>Recall backend URL</small>
             </div>
-            <button id="save-config">Save Config</button>
+
+            <button id="save-config">Save Configuration</button>
             <div id="status" class="status"></div>
         </div>
 
